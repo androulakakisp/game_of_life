@@ -31,7 +31,20 @@ print(world_state)
 # ===============================
 # ----- Initialize Plotting -----
 # ===============================
-fig, ax = plt.subplots()
+pixel_scale = 20  
+gif_width = world_size[1] * pixel_scale
+gif_height = world_size[0] * pixel_scale
+
+# 1. Force the canvas to match our pixel math precisely
+my_dpi = 100
+fig = plt.figure(
+    figsize=(gif_width / my_dpi, gif_height / my_dpi), 
+    dpi=my_dpi, 
+    facecolor='#000000'
+)
+
+# 2. Add an axes object that spans exactly 100% of the figure size
+ax = fig.add_axes([0, 0, 1, 1])
 ax.axis('off')
 frames = []
 
@@ -42,7 +55,7 @@ frames = []
 for t in range(time_steps):
 
     # ----- Take Snapshot for Animation -----
-    img = ax.imshow(world_state, cmap='binary', interpolation='nearest')
+    img = ax.imshow(world_state, cmap='binary_r', interpolation='nearest')
     frames.append([img])
 
     # ----- Loop Thorugh Every Cell -----
